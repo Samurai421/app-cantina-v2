@@ -1,0 +1,62 @@
+
+header{
+    width: 100%;
+    height: auto;
+    background-color: #62ab37;
+    border: 2px solid black;
+    border-top: 0px;
+    border-radius: 20px;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+    min-height: 180px;
+    height: 25vh;
+}
+
+nav{
+    padding-top: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+nav i{
+    margin-right: 10px;
+}
+
+nav h1{
+    color: white;
+    font-size: 35px;
+}
+
+
+.buscador {
+  display: flex;
+  min-width: 80vw;
+  align-items: center;
+  max-width: 400px;
+  margin: 15px;       /* Centrado horizontal */
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+.buscador input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  font-size: 16px;
+}
+
+.buscador button {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.buscador button:hover {
+  background: #555;
+}
