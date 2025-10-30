@@ -1,0 +1,45 @@
+.contenedor__prod{
+    margin: 10px;
+    padding: 15px;
+}
+
+.contenedor__item{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2;
+}
+
+#items-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  padding: 10px;
+}
+
+/* Cada card en celular → ocupa todo el ancho */
+.item-card {
+  flex: 1 1 100%;
+  max-width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+  text-align: center;
+  padding: 15px;
+}
+
+/* En pantallas medianas (ej. tablet / celulares grandes) → 2 columnas */
+@media (min-width: 500px) {
+  .item-card {
+    flex: 1 1 calc(50% - 20px);
+    max-width: calc(50% - 20px);
+  }
+}
+
+/* En pantallas grandes (desktop) → 3 columnas */
+@media (min-width: 900px) {
+  .item-card {
+    flex: 1 1 calc(33.33% - 20px);
+    max-width: calc(33.33% - 20px);
+  }
+}

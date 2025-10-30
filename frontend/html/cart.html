@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/resources/header.css">
     <link rel="stylesheet" href="../css/resources/bottom-bar.css">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/cart.css">
 
     <script src="https://kit.fontawesome.com/72a3a7dbe0.js" crossorigin="anonymous"></script>
 </head>
@@ -15,25 +15,24 @@
     <header>
         <div>    
             <nav>
-                <h1><i class="fa-solid fa-location-dot"></i>Pedi lo quieras ya</h1>
-                <div class="buscador">
-                  <input type="text" id="searchInput" placeholder="Buscar productos...">
-                  <button id="searchBtn">🔍</button>
-                </div>
+                <h1><i class="fa-solid fa-cart-shopping"></i>Carrito</h1>
             </nav>
         </div>
 
     </header>
 
     <main>
-        <h1>
-            Kantina
-        </h1>
-        <div class="contenedor__prod">
-            <h2>Menú de Productos</h2>
-            <div id="items-container" class="items-grid"></div>
-        </div>
+        
     </main>
+    <aside>
+        <div class="precio-final">
+            <div class="precio-texto">
+                <h3 class="items__precio-final">Total:</h3>
+                <h4 class="items__precio-final">$1000</h4>
+            </div>
+            <button class="items__precio-final">Finalizar</button>
+        </div>
+    </aside>
 
     <section class="bottom-bar">
         <div class="icons__container">
@@ -42,10 +41,8 @@
             <a href="#"><i class="fa-solid fa-scroll"></i></a>
         </div>
         <div class="cart__container">
-            <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
         </div>
     </section>
-
-    <script src="../js/home.js"></script>
 </body>
 </html>
