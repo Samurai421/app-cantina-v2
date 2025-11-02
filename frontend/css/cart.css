@@ -1,45 +1,27 @@
-aside{
-    position: fixed;
-    width: 100%;
-    bottom: 46px;
-    display: flex;
-    height: 50px;
-
-    background-color: #ebffdf;
-    border: solid #000 2px;
-    border-bottom: 0px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-
-    z-index: 10;
-
+.carrito-item {
+    transition: all 0.2s ease-in-out;
+    border-radius: 12px;
+    background-color: #fff;
 }
 
-.precio-final{
-    width: 100%;
-    display: flex;
-    padding: 10px;
-    justify-content: space-between;
-    align-items: center;
+.carrito-item:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.precio-texto {
-    display: flex;
-    gap: 10px; /* espacio entre Total y $1000 */
-    align-items: center;
+.carrito-info h6 {
+    font-size: 1rem;
 }
 
-.items__precio-final{
-    font-size: 20px;
+.carrito-cantidad input {
+    text-align: center;
 }
 
-.precio-final button{
-    padding: 5px;
-    background: #b83232;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
+@media (max-width: 768px) {
+    .carrito-item {
+        padding: 10px !important;
+    }
+    .carrito-info h6 {
+        font-size: 0.9rem;
+    }
 }
-
-

@@ -59,3 +59,13 @@ header{
 .oculto {
   display: none;
 }
+
+.footer{
+  margin-top: 30vh !important;
+}
+
+#logo-login{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
