@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda</title>
+    <link rel="stylesheet" href="../css/resources/header.css">
+    <link rel="stylesheet" href="../css/resources/bottom-bar.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/home.css">
+
+    <script src="https://kit.fontawesome.com/72a3a7dbe0.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div>    
+            <nav>
+                <h1><i class="fa-solid fa-location-dot"></i>Pedi lo quieras ya</h1>
+                <div class="buscador">
+                  <input type="text" id="searchInput" placeholder="Buscar productos...">
+                  <button id="searchBtn">🔍</button>
+                </div>
+            </nav>
+        </div>
+
+    </header>
+
+    <main>
+        <h1>
+            Kantina
+        </h1>
+        <div class="contenedor__prod">
+            <form id="product-form" class="item-card" style="margin-bottom: 20px;">
+                <h3>Agregar nuevo producto</h3>
+                <input type="text" id="product-name" placeholder="Nombre del producto" required>
+                <input type="number" id="product-price" placeholder="Precio" required>
+                <input type="number" id="product-quantity" placeholder="Cantidad en stock" required min="0">
+                <input type="text" id="product-image" placeholder="URL de la imagen (opcional)">
+                <textarea id="product-desc" placeholder="Descripción del producto"></textarea>
+                <button type="submit" class="btn-agregar">Agregar producto</button>
+            </form>
+        </div>
+
+        <h2>Pedidos pendientes</h2>
+        <div id="pedidos-container"></div>
+
+
+        <h3>Productos disponibles</h3>
+        <div id="items-container"></div>
+    </main>
+
+    <section class="bottom-bar">
+        <div class="icons__container">
+            <a href="home.html"><i class="fa-solid fa-house"></i></a>
+            <button id="logout">Cerrar sesión</button>
+            <a href="#"><i class="fa-solid fa-scroll"></i></a>
+        </div>
+        <div class="cart__container">
+            <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a>
+        </div>
+    </section>
+
+    <script src="../js/admin.js"></script>
+</body>
+</html>
