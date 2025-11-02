@@ -1,8 +1,9 @@
+// verProductos.js
 const API_URL = 'http://localhost:3000/productos';
 const itemsContainer = document.getElementById('items-container');
 const searchInput = document.getElementById('searchInput');
 
-// 🔹 Función debounce para búsquedas en tiempo real
+// 🧩 Función debounce
 function debounce(fn, delay) {
     let timer;
     return function(...args) {
@@ -13,7 +14,7 @@ function debounce(fn, delay) {
 
 // 🧾 Mostrar productos
 function mostrarProductos(productos) {
-    if (productos.length === 0) {
+    if (!productos || productos.length === 0) {
         itemsContainer.innerHTML = '<p>No hay productos.</p>';
         return;
     }
@@ -31,24 +32,6 @@ function mostrarProductos(productos) {
             </button>
         </div>
     `).join('');
-}
-
-// 🔎 Buscar productos
-async function buscarProductos(query) {
-    query = query.trim();
-    if (!query) {
-        cargarProductos();
-        return;
-    }
-
-    try {
-        const res = await fetch(`${API_URL}/buscar?q=${encodeURIComponent(query)}`);
-        const productos = await res.json();
-        mostrarProductos(productos);
-    } catch (err) {
-        console.error('Error al buscar productos:', err);
-        itemsContainer.innerHTML = '<p>Error al realizar la búsqueda.</p>';
-    }
 }
 
 // 🧾 Cargar todos los productos
@@ -83,11 +66,31 @@ function agregarAlCarrito(producto) {
     alert(`${producto.nombre} agregado al carrito`);
 }
 
+// 🔍 Búsqueda local (sin depender del backend)
+async function buscarProductos(query) {
+    try {
+        const res = await fetch(API_URL);
+        const productos = await res.json();
 
-// 🔎 Buscador en tiempo real
-searchInput.addEventListener('input', debounce(() => {
-    buscarProductos(searchInput.value);
-}, 300));
+        const filtrados = productos.filter(p =>
+            p.nombre.toLowerCase().includes(query.toLowerCase()) ||
+            p.descripcion?.toLowerCase().includes(query.toLowerCase())
+        );
+
+        mostrarProductos(filtrados);
+    } catch (err) {
+        console.error('Error en la búsqueda:', err);
+    }
+}
 
 // 🚀 Inicializar
 cargarProductos();
+
+// 🔎 Buscador en tiempo real
+if (searchInput) {
+    searchInput.addEventListener('input', debounce(() => {
+        const query = searchInput.value.trim();
+        if (query) buscarProductos(query);
+        else cargarProductos();
+    }, 300));
+}

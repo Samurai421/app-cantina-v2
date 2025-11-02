@@ -1,10 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const usuario = localStorage.getItem('user'); // ✅ toma el usuario actual logueado
+    if (!usuario) {
+        alert('Debes iniciar sesión para ver tu historial de compras.');
+        localStorage.clear();
+        window.location.replace('login.html');
+        return;
+    }
     cargarMisCompras(usuario);
 });
 
 async function cargarMisCompras(usuario) {
     try {
         const res = await fetch(`http://localhost:3000/ventas/${usuario}`);
+        if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
+
         const compras = await res.json();
         const contenedor = document.getElementById('compras-container');
 
@@ -23,5 +32,7 @@ async function cargarMisCompras(usuario) {
         `).join('');
     } catch (err) {
         console.error('Error al cargar compras:', err);
+        const contenedor = document.getElementById('compras-container');
+        contenedor.innerHTML = `<p>Error al cargar el historial de compras.</p>`;
     }
 }

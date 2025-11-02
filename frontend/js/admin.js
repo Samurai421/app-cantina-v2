@@ -3,21 +3,6 @@ const form = document.getElementById('product-form');
 const itemsContainer = document.getElementById('items-container');
 const searchInput = document.getElementById('searchInput');
 
-function protegerAdmin() {
-  const admin = localStorage.getItem('adminLogged');
-
-  if (admin !== 'true') {
-    // 🚫 Limpieza total de sesión antes de volver al login
-    localStorage.clear();
-    alert('⚠️ Debes iniciar sesión como administrador.');
-    window.location.replace('login.html');
-  }
-}
-
-
-// Ejecutar apenas carga la página
-document.addEventListener('DOMContentLoaded', protegerAdmin);
-
 
 document.getElementById('logout').addEventListener('click', () => {
     localStorage.removeItem('adminLogged');

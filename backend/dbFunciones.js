@@ -197,6 +197,19 @@ function obtenerVentasPorUsuario(usuario, callback) {
 }
 
 
+
+// Eliminar pedido por ID
+function borrarPedido(id, callback) {
+    db.run(
+        `DELETE FROM pedidos WHERE id = ?`,
+        [id],
+        function (err) {
+            if (callback) callback(err, this.changes);
+        }
+    );
+}
+
+
 module.exports = {
     crearTablaUsuarios,
     agregarUsuario,
@@ -211,6 +224,7 @@ module.exports = {
     agregarPedido,
     obtenerPedidos,
     actualizarEstadoPedido,
+    borrarPedido,
     crearTablaVentas,
     agregarVenta,
     obtenerVentas,

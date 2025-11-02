@@ -167,6 +167,7 @@ app.get('/pedidos', (req, res) => {
 
 
 // Actualizar estado de pedido
+// ✅ Actualizar estado de pedido
 app.put('/pedidos/:id', (req, res) => {
     const { id } = req.params;
     const { estado } = req.body;
@@ -177,8 +178,8 @@ app.put('/pedidos/:id', (req, res) => {
         const pedido = pedidos.find(p => p.id == id);
         if (!pedido) return res.status(404).json({ error: 'Pedido no encontrado' });
 
+        // Si el pedido se marca como ENTREGADO
         if (estado === 'entregado') {
-            // Agregar a ventas y eliminar de pedidos
             dbFuncs.agregarVenta(
                 pedido.usuario,
                 pedido.producto_id,
@@ -189,20 +190,28 @@ app.put('/pedidos/:id', (req, res) => {
                 (err) => {
                     if (err) return res.status(500).json({ error: 'No se pudo guardar en ventas' });
 
-                    // Eliminar el pedido de la tabla pedidos
-                    dbFuncs.borrarProducto(pedido.id, (err2) => {
-                        if (err2) console.error('No se pudo eliminar pedido entregado:', err2.message);
+                    // Ahora sí borramos el pedido
+                    dbFuncs.borrarPedido(pedido.id, (err2) => {
+                        if (err2) {
+                            console.error('No se pudo eliminar pedido entregado:', err2.message);
+                            return res.status(500).json({ error: 'No se pudo eliminar el pedido' });
+                        }
+
+                        // ✅ Todo correcto
+                        return res.json({ mensaje: 'Pedido entregado y movido al historial de ventas ✅' });
                     });
                 }
             );
+        } else {
+            // En otros estados (pendiente, preparado), solo actualizamos
+            dbFuncs.actualizarEstadoPedido(id, estado, (err, cambios) => {
+                if (err) return res.status(500).json({ error: err.message });
+                res.json({ mensaje: `Pedido actualizado a "${estado}" (${cambios} cambios)` });
+            });
         }
-
-        dbFuncs.actualizarEstadoPedido(id, estado, (err, cambios) => {
-            if (err) return res.status(500).json({ error: err.message });
-            res.json({ mensaje: `Pedido actualizado a "${estado}" (${cambios} cambios)` });
-        });
     });
 });
+
 
 
 app.get('/ventas', (req, res) => {

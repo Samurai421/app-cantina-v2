@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const userLogged = localStorage.getItem("userLogged") === "true";
 
   // 🛡️ Si está en admin.html pero no es admin
-  if (rutaActual === "admin.html" && !adminLogged) {
+  const paginasProtegidasAdmin = ["admin.html", "historial-ventas.html"]; // agregá las que quieras
+  if (paginasProtegidasAdmin.includes(rutaActual) && !adminLogged) {
     alert("Acceso denegado. Debes iniciar sesión como administrador.");
     localStorage.clear();
     window.location.replace("login.html");
@@ -15,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 🛡️ Si está en home.html o cualquier página de usuario pero no está logueado
   const paginasProtegidasUsuario = ["home.html", "historial-compras.html", "cart.html", "historial-ventas.html"]; // agregá las que quieras
-  if (paginasProtegidasUsuario.includes(rutaActual) && !userLogged) {
+  if (paginasProtegidasUsuario.includes(rutaActual) && !userLogged && !adminLogged) {
     alert("Debes iniciar sesión para acceder a esta página.");
     localStorage.clear();
     window.location.replace("login.html");
