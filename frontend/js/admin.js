@@ -1,5 +1,5 @@
-const API_URL = 'http://localhost:3000/productos';
-const PEDIDOS_URL = 'http://localhost:3000/pedidos';
+const API_URL = 'https://backend-cantina.onrender.com/productos';
+const PEDIDOS_URL = 'https://backend-cantina.onrender.com/pedidos';
 
 const form = document.getElementById('product-form');
 const itemsContainer = document.getElementById('items-container');
@@ -37,7 +37,7 @@ function mostrarProductos(productos) {
         <img src="${p.imagen 
           ? (p.imagen.startsWith('http') 
               ? p.imagen 
-              : `http://localhost:3000${p.imagen}`)
+              : `https://backend-cantina.onrender.com${p.imagen}`)
           : 'https://via.placeholder.com/200'}" 
           alt="${p.nombre}">
 

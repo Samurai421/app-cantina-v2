@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function cargarMisCompras(usuario) {
     try {
-        const res = await fetch(`http://localhost:3000/ventas/${usuario}`);
+        const res = await fetch(`https://backend-cantina.onrender.com/ventas/${usuario}`);
         if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
 
         const compras = await res.json();

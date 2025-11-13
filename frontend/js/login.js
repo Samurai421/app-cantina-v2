@@ -1,6 +1,6 @@
 // Credenciales de admin (fijas por ahora)
 const ADMIN_USER = 'admin';
-const ADMIN_PASS = '1234';
+const ADMIN_PASS = 'admin1234';
 
 
 
@@ -49,10 +49,10 @@ async function login() {
 
   // Si es usuario común
   try {
-    const res = await fetch('http://localhost:3000/usuarios/login', {
+    const res = await fetch('https://backend-cantina.onrender.com/usuarios/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user, pass })
+      body: JSON.stringify({ nameuser: user, pass })
     });
 
     const data = await res.json();
@@ -60,7 +60,7 @@ async function login() {
     if (!res.ok) throw new Error(data.error || 'Error en el login');
 
     // ✅ Guardamos sesión del usuario
-    localStorage.setItem('user', data.user);
+    localStorage.setItem('user', data.nameuser);
     localStorage.setItem('email', data.email);
     localStorage.setItem('userLogged', 'true');
 
@@ -85,10 +85,10 @@ async function registrar() {
     }
 
     try {
-        const res = await fetch('http://localhost:3000/usuarios', {
+        const res = await fetch('https://backend-cantina.onrender.com/usuarios', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ user, pass, email })
+            body: JSON.stringify({ nameuser: user, pass, email })
         });
 
         if (!res.ok) {

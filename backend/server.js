@@ -4,7 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer'); // 📦 Para subir archivos
 const dbFuncs = require('./dbFunciones');
-const db = require('./bases/database');
+const pool = require('./bases/database');
+
 
 const app = express();
 const PORT = 3000;
@@ -104,21 +105,29 @@ app.listen(PORT, () => {
 
 
 // 🛒 Buscar productos
-app.get('/productos/buscar', (req, res) => {
+app.get('/productos/buscar', async (req, res) => {
     const q = req.query.q || '';
-    db.all(`SELECT * FROM productos WHERE nombre LIKE ?`, [`%${q}%`], (err, rows) => {
-        if (err) return res.status(500).json({ error: 'Error en la búsqueda' });
-        res.json(rows);
-    });
+
+    try {
+        const result = await pool.query(
+            'SELECT * FROM productos WHERE nombre ILIKE $1',
+            [`%${q}%`]
+        );
+        res.json(result.rows);
+    } catch (err) {
+        console.error('❌ Error en búsqueda:', err);
+        res.status(500).json({ error: 'Error en la búsqueda' });
+    }
 });
 
 // POST /productos/comprar/:id
-app.post('/productos/comprar/:id', (req, res) => {
+app.post('/productos/comprar/:id', async (req, res) => {
     const id = req.params.id;
     const { cantidad, usuario } = req.body;
 
-    db.get('SELECT * FROM productos WHERE id = ?', [id], (err, producto) => {
-        if (err) return res.status(500).json({ error: err.message });
+    try {
+        const productoRes = await pool.query('SELECT * FROM productos WHERE id = $1', [id]);
+        const producto = productoRes.rows[0];
         if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
 
         if (producto.cantidad < cantidad) {
@@ -126,53 +135,47 @@ app.post('/productos/comprar/:id', (req, res) => {
         }
 
         const nuevoStock = producto.cantidad - cantidad;
+        await pool.query('UPDATE productos SET cantidad = $1 WHERE id = $2', [nuevoStock, id]);
 
-        db.run('UPDATE productos SET cantidad = ? WHERE id = ?', [nuevoStock, id], function (err) {
-            if (err) return res.status(500).json({ error: err.message });
+        const total = producto.precio * cantidad;
+        await pool.query(
+            `INSERT INTO pedidos (usuario, producto_id, nombre_producto, cantidad, precio_unitario, total, estado)
+             VALUES ($1, $2, $3, $4, $5, $6, 'pendiente')`,
+            [usuario || 'Invitado', id, producto.nombre, cantidad, producto.precio, total]
+        );
 
-            const total = producto.precio * cantidad;
-            dbFuncs.agregarPedido(
-                usuario || "Invitado",
-                id,
-                producto.nombre,
-                cantidad,
-                producto.precio,
-                total,
-                (err) => {
-                    if (err) return res.status(500).json({ error: 'No se pudo registrar el pedido' });
-                    res.json({ mensaje: 'Compra realizada y pedido registrado ✅', stockRestante: nuevoStock });
-                }
-            );
-        });
-    });
+        res.json({ mensaje: 'Compra realizada y pedido registrado ✅', stockRestante: nuevoStock });
+    } catch (err) {
+        console.error('❌ Error en /comprar:', err);
+        res.status(500).json({ error: 'Error al procesar la compra' });
+    }
 });
-
 
 
 // Registrar usuario
 app.post('/usuarios', (req, res) => {
-    const { user, pass, email } = req.body;
+    const { nameuser, pass, email } = req.body;
 
-    dbFuncs.agregarUsuario(user, pass, email, (err, id) => {
+    dbFuncs.agregarUsuario(nameuser, pass, email, (err, id) => {
         if (err) {
             if (err.message.includes('UNIQUE')) {
                 return res.status(400).json({ error: 'El usuario ya existe' });
             }
             return res.status(500).json({ error: err.message });
         }
-        res.json({ id, user, email });
+        res.json({ id, nameuser, email });
     });
 });
 
 // Login usuario
 app.post('/usuarios/login', (req, res) => {
-    const { user, pass } = req.body;
+    const { nameuser, pass } = req.body;
 
-    dbFuncs.obtenerUsuario(user, pass, (err, row) => {
+    dbFuncs.obtenerUsuario(nameuser, pass, (err, row) => {
         if (err) return res.status(500).json({ error: err.message });
         if (!row) return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
 
-        res.json({ id: row.id, user: row.user, email: row.email });
+        res.json({ id: row.id, nameuser: row.nameuser, email: row.email });
     });
 });
 

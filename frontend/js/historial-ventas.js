@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function cargarHistorial() {
     try {
-        const res = await fetch('http://localhost:3000/ventas');
+        const res = await fetch('https://backend-cantina.onrender.com/ventas');
         const ventas = await res.json();
 
         const contenedor = document.getElementById('ventas-container');
