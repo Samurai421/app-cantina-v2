@@ -102,3 +102,16 @@
 .pedido-card button:hover {
   opacity: 0.9;
 }
+
+
+
+#product-image {
+  display: block;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 8px;
+  overflow: hidden;
+  white-space: wrap;
+  box-sizing: border-box;
+}

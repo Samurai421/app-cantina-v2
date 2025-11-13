@@ -1,5 +1,5 @@
 // verProductos.js
-const API_URL = 'http://localhost:3000/productos';
+const API_URL = 'https://backend-cantina.onrender.com/productos';
 const itemsContainer = document.getElementById('items-container');
 const searchInput = document.getElementById('searchInput');
 
@@ -30,7 +30,7 @@ function mostrarProductos(productos) {
                                 const imagenSrc = p.imagen
                                     ? (p.imagen.startsWith('http')
                                         ? p.imagen
-                                        : `http://localhost:3000${p.imagen}`)
+                                        : `https://backend-cantina.onrender.com${p.imagen}`)
                                     : 'https://via.placeholder.com/300x300?text=Sin+imagen';
 
                                 return `

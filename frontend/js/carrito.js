@@ -1,7 +1,7 @@
 const mainCarritoContainer = document.getElementById('main-carrito-container');
 const totalCarrito = document.getElementById('total-carrito');
 const finalizarBtn = document.getElementById('finalizar-compra');
-const API_URL = 'http://localhost:3000/productos';
+const API_URL = 'https://backend-cantina.onrender.com/productos';
 
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
